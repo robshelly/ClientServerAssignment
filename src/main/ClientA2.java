@@ -44,18 +44,23 @@ public class ClientA2 {
   }
 
   
+  /**
+   * Sends a request for grades to the server 
+   */
   public void sendRequest() {
     try {
 
+      
       // Send the radius to the server
-      toServer.writeUTF("Hello from Server");
+      toServer.writeInt(1);
+      toServer.writeUTF("Distributed Systems");
       toServer.flush();
 
       // Get area from the server
       String response = fromServer.readUTF();
 
       // Display to the text area
-      System.out.println("Sent message to Server");
+      System.out.println("Request Sent");
       System.out.println("Response received: "
         + response + '\n');
     }
