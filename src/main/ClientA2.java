@@ -51,18 +51,18 @@ public class ClientA2 {
     try {
 
       
-      // Send the radius to the server
+      // Send the request to the server!
       toServer.writeInt(1);
-      toServer.writeUTF("Distributed Systems");
+      toServer.writeUTF("Game Design");
       toServer.flush();
-
-      // Get area from the server
+      
+      // Listen for successful/unsuccessful validation, print
+      String validation = fromServer.readUTF();
+      System.out.println(validation);
+      
+      // Listen for response
       String response = fromServer.readUTF();
-
-      // Display to the text area
-      System.out.println("Request Sent");
-      System.out.println("Response received: "
-        + response + '\n');
+      System.out.println("The server has sent the following data...\n" + response);
     }
     catch (IOException ex) {
       System.err.println(ex);
