@@ -62,7 +62,7 @@ public class ClientA2 {
       
       // Listen for successful/unsuccessful validation, print
       String validation = fromServer.readUTF();
-      gui.addResponse(validation);
+      gui.addResponse(validation);      
       
       // Listen for response
       String response = fromServer.readUTF();

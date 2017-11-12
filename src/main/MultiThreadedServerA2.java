@@ -4,9 +4,12 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import gui.ServerGui;
+
 public class MultiThreadedServerA2 {
 
   private ServerSocket serverSocket;
+  private ServerGui gui;
 
   public static void main(String[] args) {
     new MultiThreadedServerA2();
@@ -16,13 +19,15 @@ public class MultiThreadedServerA2 {
    *  Constructor for Multithreaded Server 
    */
   public MultiThreadedServerA2() {
+    
+    gui = new ServerGui(this);
    
     // Create a server socket
     try {
       serverSocket = new ServerSocket(8000);
-      System.out.println("Server started at " + new Date() + '\n');
+      gui.appendToLog("Server started at " + new Date() + '\n');
     } catch (IOException e) {
-      System.out.println("Could not create server socket on port 8888. Quitting.");
+      gui.appendToLog("Could not create server socket on port 8888. Quitting.");
       System.exit(-1);
     }
 
@@ -31,7 +36,7 @@ public class MultiThreadedServerA2 {
     while (true) {
       try {
         Socket socket = serverSocket.accept();
-        ServerA2Thread sThread = new ServerA2Thread(socket);
+        ServerA2Thread sThread = new ServerA2Thread(socket, gui);
         sThread.start();
       } catch (IOException e) {
         System.out.println("Error receiving from client! " + e.getMessage());

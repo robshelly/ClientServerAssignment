@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import gui.ServerGui;
+
 public class ServerA2Thread extends Thread {
   private Thread thread;
   
@@ -29,24 +31,29 @@ public class ServerA2Thread extends Thread {
   private final int portNumber = 3306;
   private final String dbName = "gradedatabase";
   
+  // Client Info
   private String studentFirstName;
   private String studentSurname;
+  
+  // Gui
+  private ServerGui gui;
   
   /**
    * Constructor for Server Thread.
    * 
    * @param socket Socket to connect to client.
    */
-  public ServerA2Thread(Socket socket) {
+  public ServerA2Thread(Socket socket, ServerGui gui) {
     
     this.socket = socket;
+    this.gui = gui;
     try {
       createIoStreams();    
       getConnection();
     } catch (IOException e1) {
-      System.out.println("Error creating  IO Streams. " + e1.getMessage());
+      gui.appendToLog("Error creating  IO Streams. " + e1.getMessage());
     } catch (SQLException e2) {
-      System.out.println("Error connecting to database. " + e2.getMessage());
+      gui.appendToLog("Error connecting to database. " + e2.getMessage());
     }
   }
 
@@ -73,15 +80,15 @@ public class ServerA2Thread extends Thread {
         int studentId = inputFromClient.readInt();
         String moduleName = inputFromClient.readUTF();
         
-        System.out.println("Processing ... Client-1 (//TODO) request ....");        
+        gui.appendToLog("Processing ... Client-1 (//TODO) request ....");        
         if (checkStudentRegistered(studentId)) {
           sendStudentGrades(studentId, moduleName);
         }
       }
     } catch (IOException e1) {
-      System.out.println("Data IO Error: " + e1.getMessage());
+      gui.appendToLog("Data IO Error: " + e1.getMessage());
     } catch (SQLException e2) {
-      System.out.println("Error reading rows from database. " + e2.getMessage());
+      gui.appendToLog("Error reading rows from database. " + e2.getMessage());
     }
   }
   
@@ -155,7 +162,8 @@ public class ServerA2Thread extends Thread {
       return true;
     } else {
       outputToClient.writeUTF("Sorry " + studentId
-          + ". You are not a registered student. Bye.");
+          + ". You are not a registered student.");
+      outputToClient.writeUTF("Bye.");
       return false;
     }
   }

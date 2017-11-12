@@ -42,6 +42,7 @@ public class ClientGui {
   private void initialize() {
     frame = new JFrame();
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setTitle("Client");
     frame.getContentPane().setLayout(new BorderLayout());
     
     JPanel pnlRequestFields = new JPanel();
