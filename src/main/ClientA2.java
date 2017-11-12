@@ -43,8 +43,11 @@ public class ClientA2 {
       // Create an output stream to send data to the server
       toServer = new DataOutputStream(socket.getOutputStream());
     }
-    catch (IOException e) {
-      System.out.println(e.getMessage()+ '\n');
+    catch (ConnectException e1) {
+      gui.addResponse("Failed to connect to server. " + e1.getMessage());
+    }
+    catch (IOException e2) {
+      gui.addResponse("Failed to communicate with server. " + e2.getMessage());
     }
   }
 
@@ -69,8 +72,8 @@ public class ClientA2 {
       parseResponse(response);
       
     }
-    catch (IOException ex) {
-      System.err.println(ex);
+    catch (IOException e2) {
+      gui.addResponse("Failed to communicate with server. " + e2.getMessage());
     }
   }
   

@@ -80,13 +80,17 @@ public class ServerA2Thread extends Thread {
         int studentId = inputFromClient.readInt();
         String moduleName = inputFromClient.readUTF();
         
-        gui.appendToLog("Processing ... Client-1 (//TODO) request ....");        
+        gui.appendToLog("Request received from client " +
+            socket.getInetAddress().getHostName() + "@" +
+            socket.getInetAddress().getHostAddress() + 
+            ". Processing...");     
+        
         if (checkStudentRegistered(studentId)) {
           sendStudentGrades(studentId, moduleName);
         }
       }
     } catch (IOException e1) {
-      gui.appendToLog("Data IO Error: " + e1.getMessage());
+      gui.appendToLog("Client Disconnected");
     } catch (SQLException e2) {
       gui.appendToLog("Error reading rows from database. " + e2.getMessage());
     }
